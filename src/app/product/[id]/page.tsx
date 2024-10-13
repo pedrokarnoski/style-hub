@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Stripe from 'stripe'
 
+import { BuyProduct } from '@/components/buy-product'
 import { Header } from '@/components/header'
-import { Button } from '@/components/ui/button'
 import { stripe } from '@/lib/stripe'
 
 export default async function Product({ params }: { params: { id: string } }) {
@@ -21,6 +21,7 @@ export default async function Product({ params }: { params: { id: string } }) {
       style: 'currency',
       currency: 'BRL',
     }).format((price.unit_amount ?? 0) / 100),
+    defaultPriceId: price.id,
   }
 
   return (
@@ -48,7 +49,8 @@ export default async function Product({ params }: { params: { id: string } }) {
                 {product.price}
               </p>
             </div>
-            <Button size="lg">Comprar</Button>
+
+            <BuyProduct defaultPriceId={product.defaultPriceId} />
           </div>
         </div>
       </div>
