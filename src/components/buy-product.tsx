@@ -31,7 +31,12 @@ export function BuyProduct({ defaultPriceId }: BuyProductProps) {
   }
 
   return (
-    <Button disabled={isCreatingCheckout} size="lg" onClick={handleBuyProduct}>
+    <Button
+      disabled={isCreatingCheckout}
+      size="lg"
+      className="w-full sm:w-auto"
+      onClick={handleBuyProduct}
+    >
       Comprar
     </Button>
   )

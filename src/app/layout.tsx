@@ -4,8 +4,8 @@ import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'StyleHub',
-  description: 'StyleHub | Loja',
+  title: 'Home | StyleHub',
+  description: 'Loja de camisetas',
 }
 
 export default function RootLayout({
