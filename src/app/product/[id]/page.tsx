@@ -4,6 +4,10 @@ import Stripe from 'stripe'
 
 import { BuyProduct } from '@/components/buy-product'
 import { Header } from '@/components/header'
+import { MagicCard } from '@/components/ui/magic-card'
+import Particles from '@/components/ui/particles'
+import QuantityPicker from '@/components/ui/quantity-picker'
+import { Separator } from '@/components/ui/separator'
 import { stripe } from '@/lib/stripe'
 
 export async function generateMetadata({
@@ -43,29 +47,42 @@ export default async function Product({ params }: { params: { id: string } }) {
     <>
       <Header />
 
-      <div className="flex min-h-screen flex-col items-center justify-center px-14 lg:px-20">
-        <div className="flex w-full max-w-5xl flex-col items-center gap-12 lg:flex-row lg:items-start">
-          <div className="flex w-full justify-center lg:w-1/2">
-            <div className="relative h-96 w-96 rounded-lg bg-gradient-to-b from-zinc-900 to-zinc-950">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
-          </div>
+      <Particles
+        className="absolute inset-0"
+        quantity={100}
+        ease={80}
+        color="#fff"
+        refresh
+      />
 
-          <div>
+      <div className="flex min-h-screen flex-col items-center justify-center px-8 py-20">
+        <div className="flex w-full max-w-6xl flex-col items-center gap-6 sm:gap-16 lg:flex-row lg:items-start">
+          <MagicCard
+            className="cursor-pointer flex-col items-center justify-center whitespace-nowrap bg-gradient-to-bl from-zinc-900 to-zinc-950 text-4xl shadow-2xl"
+            gradientColor="#262626"
+          >
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={520}
+              height={480}
+            />
+          </MagicCard>
+
+          <div className="w-full space-y-4">
             <div className="flex h-full w-full flex-col justify-between">
-              <div>
-                <h1 className="mb-4 text-3xl font-bold">{product.name}</h1>
-                <p className="mb-6 text-lg">{product.description}</p>
-                <p className="mb-6 text-2xl font-semibold text-primary">
+              <div className="space-y-4">
+                <h1 className="text-2xl font-bold">{product.name}</h1>
+                <p className="text-muted-foreground">{product.description}</p>
+                <p className="text-2xl font-semibold text-primary">
                   {product.price}
                 </p>
               </div>
             </div>
+
+            <Separator />
+
+            <QuantityPicker />
 
             <BuyProduct defaultPriceId={product.defaultPriceId} />
           </div>

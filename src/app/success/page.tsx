@@ -4,8 +4,11 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Stripe } from 'stripe'
 
+import { Confetti } from '@/components/confetti'
 import { Header } from '@/components/header'
 import { Button } from '@/components/ui/button'
+import { MagicCard } from '@/components/ui/magic-card'
+import Particles from '@/components/ui/particles'
 import { stripe } from '@/lib/stripe'
 
 interface SuccessPageProps {
@@ -67,12 +70,22 @@ export default async function Success({ searchParams }: SuccessPageProps) {
     <>
       <Header />
 
+      <Particles
+        className="absolute inset-0"
+        quantity={100}
+        ease={80}
+        color="#fff"
+        refresh
+      />
+
+      <Confetti />
+
       <div className="flex min-h-screen flex-col items-center justify-center px-14 text-center lg:px-20">
         <h1 className="p-4 text-xl font-semibold text-primary">
           Compra efetuada
         </h1>
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center space-y-8">
           {checkoutSession.customer_details ? (
             <div>
               <p>
@@ -85,16 +98,21 @@ export default async function Success({ searchParams }: SuccessPageProps) {
             <p>Erro: Detalhes do cliente não encontrados.</p>
           )}
 
-          <div className="relative my-8 h-56 w-56 rounded-lg bg-gradient-to-b from-zinc-900 to-zinc-950 md:h-96 md:w-96">
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              fill
-              className="rounded-lg object-cover"
-            />
+          <div className="flex w-full max-w-6xl flex-col items-center lg:flex-row lg:items-start">
+            <MagicCard
+              className="cursor-pointer flex-col items-center justify-center whitespace-nowrap bg-gradient-to-bl from-zinc-900 to-zinc-950 text-4xl shadow-2xl"
+              gradientColor="#262626"
+            >
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                width={520}
+                height={480}
+              />
+            </MagicCard>
           </div>
 
-          <Button asChild>
+          <Button size="lg" asChild>
             <Link href="/">Voltar ao catálogo</Link>
           </Button>
         </div>

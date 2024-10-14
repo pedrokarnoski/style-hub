@@ -34,10 +34,10 @@ export function BuyProduct({ defaultPriceId }: BuyProductProps) {
     <Button
       disabled={isCreatingCheckout}
       size="lg"
-      className="w-full sm:w-auto"
+      className="w-full sm:w-1/2"
       onClick={handleBuyProduct}
     >
-      Comprar
+      Colocar na sacola
     </Button>
   )
 }

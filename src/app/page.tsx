@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Stripe from 'stripe'
 
 import { Header } from '@/components/header'
-import { Button } from '@/components/ui/button'
+import BlurFade from '@/components/ui/blur-fade'
 import {
   Carousel,
   CarouselContent,
@@ -11,6 +11,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import FlickeringGrid from '@/components/ui/flickering-grid'
+import Particles from '@/components/ui/particles'
+import { RainbowButton } from '@/components/ui/rainbow-button'
 import { stripe } from '@/lib/stripe'
 
 export const revalidate = 60 * 60 * 2 // 2h
@@ -39,39 +42,47 @@ export default async function Home() {
     <>
       <Header />
 
-      <div className="flex min-h-screen flex-col items-center justify-center px-14 lg:px-20">
-        <Carousel className="select-none">
+      <Particles
+        className="absolute inset-0"
+        quantity={100}
+        ease={80}
+        color="#fff"
+        refresh
+      />
+
+      <div className="flex min-h-screen flex-col items-center justify-center lg:px-20">
+        <Carousel className="z-10 select-none">
           <CarouselContent>
-            {products.map((product) => (
+            {products.map((product, idx) => (
               <CarouselItem
                 key={product.id}
-                className="group relative flex select-none flex-col items-center justify-center md:basis-1/2 lg:basis-1/3"
+                className="md:basis-1/2 lg:basis-1/2"
               >
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={520}
-                  height={480}
-                />
+                <BlurFade
+                  className="flex flex-col items-center justify-center"
+                  delay={0.25 + idx * 0.05}
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={520}
+                    height={480}
+                    className="object-cover"
+                  />
 
-                <div className="absolute inset-0 flex flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <h3 className="text-lg font-semibold text-white">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-gray-300">{product.description}</p>
-                  <p className="text-lg font-semibold text-primary">
+                  <h3 className="text-lg font-semibold">{product.name}</h3>
+                  <p className="text-xl font-semibold text-primary">
                     {product.price}
                   </p>
-                  <Button className="mt-4" asChild>
-                    <Link
-                      href={`/product/${product.id}`}
-                      key={product.id}
-                      prefetch={false}
-                    >
-                      Ver mais
-                    </Link>
-                  </Button>
-                </div>
+
+                  <div className="p-8">
+                    <RainbowButton>
+                      <Link href={`/product/${product.id}`} prefetch={false}>
+                        Ver mais
+                      </Link>
+                    </RainbowButton>
+                  </div>
+                </BlurFade>
               </CarouselItem>
             ))}
           </CarouselContent>
