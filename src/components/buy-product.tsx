@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 
-import { Button } from '@/components/ui/button'
+import PulsatingButton from '@/components/ui/pulsating-button'
 
 interface BuyProductProps {
   defaultPriceId: string
@@ -31,13 +31,12 @@ export function BuyProduct({ defaultPriceId }: BuyProductProps) {
   }
 
   return (
-    <Button
+    <PulsatingButton
       disabled={isCreatingCheckout}
-      size="lg"
-      className="w-full sm:w-1/2"
+      className="w-full"
       onClick={handleBuyProduct}
     >
-      Colocar na sacola
-    </Button>
+      Finalizar compra
+    </PulsatingButton>
   )
 }

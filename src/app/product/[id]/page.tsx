@@ -4,6 +4,7 @@ import Stripe from 'stripe'
 
 import { BuyProduct } from '@/components/buy-product'
 import { Header } from '@/components/header'
+import { Button } from '@/components/ui/button'
 import { MagicCard } from '@/components/ui/magic-card'
 import Particles from '@/components/ui/particles'
 import QuantityPicker from '@/components/ui/quantity-picker'
@@ -84,7 +85,9 @@ export default async function Product({ params }: { params: { id: string } }) {
 
             <QuantityPicker />
 
-            <BuyProduct defaultPriceId={product.defaultPriceId} />
+            <Button className="w-full sm:w-1/2" size="lg">
+              Adicionar a sacola
+            </Button>
           </div>
         </div>
       </div>

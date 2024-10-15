@@ -11,7 +11,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-import FlickeringGrid from '@/components/ui/flickering-grid'
 import Particles from '@/components/ui/particles'
 import { RainbowButton } from '@/components/ui/rainbow-button'
 import { stripe } from '@/lib/stripe'
@@ -50,13 +49,13 @@ export default async function Home() {
         refresh
       />
 
-      <div className="flex min-h-screen flex-col items-center justify-center lg:px-20">
+      <div className="flex min-h-screen flex-col items-center justify-center">
         <Carousel className="z-10 select-none">
           <CarouselContent>
             {products.map((product, idx) => (
               <CarouselItem
                 key={product.id}
-                className="md:basis-1/2 lg:basis-1/2"
+                className="md:basis-1/2 lg:basis-1/3"
               >
                 <BlurFade
                   className="flex flex-col items-center justify-center"
@@ -75,7 +74,7 @@ export default async function Home() {
                     {product.price}
                   </p>
 
-                  <div className="p-8">
+                  <div className="mt-8">
                     <RainbowButton>
                       <Link href={`/product/${product.id}`} prefetch={false}>
                         Ver mais
@@ -86,8 +85,6 @@ export default async function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
         </Carousel>
       </div>
     </>
