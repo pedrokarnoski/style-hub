@@ -40,6 +40,7 @@ export default async function Product({ params }: { params: { id: string } }) {
       currency: 'BRL',
     }).format((price.unit_amount ?? 0) / 100),
     defaultPriceId: price.id,
+    quantity: 1,
   }
 
   return (
