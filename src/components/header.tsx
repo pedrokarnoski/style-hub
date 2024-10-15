@@ -1,6 +1,7 @@
 'use client'
 
-import { Shirt, ShoppingBasket } from 'lucide-react'
+import { Shirt, ShoppingBasket, Trash } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -15,33 +16,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { useCart } from '@/context/cart-context'
 
-// Simulando itens do carrinho
-const cartItems = [
-  { id: 'price_1', name: 'T-Shirt', price: 19.99 },
-  { id: 'price_2', name: 'Hoodie', price: 39.99 },
-]
+import { Card } from './ui/card'
 
 export function Header() {
+  const { cartItems, removeFromCart } = useCart()
   const [isOpen, setIsOpen] = useState(false)
-
-  const handleCheckout = async () => {
-    // Enviar a requisição para criar uma sessão de checkout
-    const response = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        priceId: cartItems.map((item) => item.id), // Enviando todos os IDs de preços
-      }),
-    })
-
-    const { checkoutUrl } = await response.json()
-
-    // Redirecionar para a URL do checkout
-    window.location.href = checkoutUrl
-  }
 
   return (
     <div className="absolute z-20 w-full border-b bg-background lg:px-40">
@@ -70,22 +51,53 @@ export function Header() {
               </SheetDescription>
             </SheetHeader>
 
-            <div className="flex-grow">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between py-2"
-                >
-                  <span>{item.name}</span>
-                  <span>${item.price.toFixed(2)}</span>
-                </div>
-              ))}
-              <Separator className="my-4" />
+            <div className="flex-grow space-y-3">
+              {cartItems.length === 0 ? (
+                <p className="text-center text-muted-foreground">
+                  Seu carrinho está vazio.
+                </p>
+              ) : (
+                cartItems.map((item) => (
+                  <Card
+                    key={item.id}
+                    className="flex items-start justify-between"
+                  >
+                    <div className="flex items-center gap-4 py-1">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={100}
+                        height={60}
+                      />
+
+                      <div className="flex flex-col">
+                        <span className="font-medium">{item.name}</span>
+                        <strong className="text-lg text-primary">
+                          {item.price}
+                        </strong>
+                        <span className="text-sm text-muted-foreground">
+                          Quantidade: {item.quantity}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 self-end text-red-400"
+                        onClick={() => removeFromCart(item.id)}
+                      >
+                        <Trash className="h-5 w-5" />
+                      </Button>
+                    </div>
+                  </Card>
+                ))
+              )}
             </div>
 
-            <BuyProduct className="w-full" onClick={handleCheckout}>
-              Finalizar compra
-            </BuyProduct>
+            <Separator className="my-4" />
+            <BuyProduct className="w-full">Finalizar compra</BuyProduct>
           </SheetContent>
         </Sheet>
       </div>

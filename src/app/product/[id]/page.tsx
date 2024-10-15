@@ -2,12 +2,10 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import Stripe from 'stripe'
 
-import { BuyProduct } from '@/components/buy-product'
+import { AddToCart } from '@/components/add-to-cart'
 import { Header } from '@/components/header'
-import { Button } from '@/components/ui/button'
 import { MagicCard } from '@/components/ui/magic-card'
 import Particles from '@/components/ui/particles'
-import QuantityPicker from '@/components/ui/quantity-picker'
 import { Separator } from '@/components/ui/separator'
 import { stripe } from '@/lib/stripe'
 
@@ -83,11 +81,7 @@ export default async function Product({ params }: { params: { id: string } }) {
 
             <Separator />
 
-            <QuantityPicker />
-
-            <Button className="w-full sm:w-1/2" size="lg">
-              Adicionar a sacola
-            </Button>
+            <AddToCart product={product} />
           </div>
         </div>
       </div>

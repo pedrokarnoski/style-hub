@@ -1,24 +1,35 @@
 'use client'
 
-import { JSX, SVGProps, useState } from 'react'
+import { MinusIcon, PlusIcon } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export default function QuantityPicker() {
+interface QuantityPickerProps {
+  onQuantityChange: (quantity: number) => void
+}
+
+export default function QuantityPicker({
+  onQuantityChange,
+}: QuantityPickerProps) {
   const [quantity, setQuantity] = useState(1)
   const min = 1
   const max = 10
 
   const handleIncrement = () => {
     if (quantity < max) {
-      setQuantity(quantity + 1)
+      const newQuantity = quantity + 1
+      setQuantity(newQuantity)
+      onQuantityChange(newQuantity)
     }
   }
 
   const handleDecrement = () => {
     if (quantity > min) {
-      setQuantity(quantity - 1)
+      const newQuantity = quantity - 1
+      setQuantity(newQuantity)
+      onQuantityChange(newQuantity)
     }
   }
 
@@ -38,7 +49,11 @@ export default function QuantityPicker() {
         <Input
           type="number"
           value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
+          onChange={(e) => {
+            const newQuantity = Number(e.target.value)
+            setQuantity(newQuantity)
+            onQuantityChange(newQuantity)
+          }}
           min={min}
           max={max}
           className="w-full text-center text-lg font-medium sm:w-40"
@@ -54,44 +69,5 @@ export default function QuantityPicker() {
         </Button>
       </div>
     </div>
-  )
-}
-
-function MinusIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-    </svg>
-  )
-}
-
-function PlusIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
   )
 }
