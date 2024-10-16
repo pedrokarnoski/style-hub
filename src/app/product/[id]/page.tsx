@@ -45,7 +45,7 @@ export default async function Product({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <Header />
+      <Header showBag />
 
       <Particles
         className="absolute inset-0"

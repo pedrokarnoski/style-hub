@@ -15,7 +15,7 @@ export default function QuantityPicker({
 }: QuantityPickerProps) {
   const [quantity, setQuantity] = useState(1)
   const min = 1
-  const max = 10
+  const max = 100
 
   const handleIncrement = () => {
     if (quantity < max) {

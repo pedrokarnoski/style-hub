@@ -1,6 +1,6 @@
 'use client'
 
-import { Shirt, ShoppingBasket, Trash } from 'lucide-react'
+import { Frown, Shirt, ShoppingBasket, Trash } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
@@ -82,26 +82,30 @@ export function Header({ showBag = true }: { showBag: boolean }) {
                 <Button size="icon">
                   <ShoppingBasket className="size-6" />
                 </Button>
-                {totalItems > 0 && (
+                {cartItems.length > 0 && (
                   <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-white text-sm font-bold text-background">
-                    {totalItems}
+                    {cartItems.length}
                   </span>
                 )}
               </div>
             </SheetTrigger>
 
-            <SheetContent className="flex h-full flex-col justify-between overflow-y-auto py-10">
+            <SheetContent className="flex h-full flex-col justify-between overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Sacola de compras</SheetTitle>
                 <SheetDescription>
                   Aqui estão os itens que você adicionou a sua sacola.
                 </SheetDescription>
               </SheetHeader>
-              <div className="flex-grow space-y-3">
+
+              <div className="flex-grow space-y-2">
                 {cartItems.length === 0 ? (
-                  <p className="text-center text-muted-foreground">
-                    Seu carrinho está vazio.
-                  </p>
+                  <div className="flex h-full flex-col items-center justify-center gap-4">
+                    <Frown className="h-8 w-8 text-muted-foreground" />
+                    <p className="text-center text-muted-foreground">
+                      Sua sacola está vazia.
+                    </p>
+                  </div>
                 ) : (
                   cartItems.map((item) => (
                     <Card
@@ -117,7 +121,7 @@ export function Header({ showBag = true }: { showBag: boolean }) {
                         />
 
                         <div className="flex w-full flex-col items-center text-center sm:items-start sm:text-left">
-                          <p className="font-medium">{item.name}</p>
+                          <p className="font-medium lg:pr-1">{item.name}</p>
                           <p className="text-lg font-semibold text-primary">
                             {item.price}
                           </p>
@@ -164,8 +168,6 @@ export function Header({ showBag = true }: { showBag: boolean }) {
                 )}
               </div>
 
-              <Separator />
-
               {cartItems.length > 0 && (
                 <div className="px-1">
                   <div className="flex flex-row items-center justify-between">
@@ -181,9 +183,12 @@ export function Header({ showBag = true }: { showBag: boolean }) {
                 </div>
               )}
 
-              <Separator />
-
-              {cartItems.length > 0 && <BuyProduct />}
+              {cartItems.length > 0 && (
+                <>
+                  <Separator />
+                  <BuyProduct />
+                </>
+              )}
             </SheetContent>
           </Sheet>
         )}

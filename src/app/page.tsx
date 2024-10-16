@@ -8,14 +8,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel'
 import Particles from '@/components/ui/particles'
 import { RainbowButton } from '@/components/ui/rainbow-button'
 import { stripe } from '@/lib/stripe'
 
-export const revalidate = 60 * 60 * 2 // 2h
+export const revalidate = 60 * 60 * 24 // 1 dia
 
 export default async function Home() {
   const response = await stripe.products.list({
@@ -39,7 +37,7 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
+      <Header showBag />
 
       <Particles
         className="absolute inset-0"

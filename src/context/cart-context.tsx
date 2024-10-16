@@ -15,6 +15,7 @@ interface CartContextType {
   cartItems: Product[]
   addToCart: (product: Product) => void
   removeFromCart: (productId: string) => void
+  clearCart: () => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -32,9 +33,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
-      const updatedCart = [...prevItems, product]
-      localStorage.setItem('cartItems', JSON.stringify(updatedCart))
-      return updatedCart
+      const existingItem = prevItems.find((item) => item.id === product.id)
+
+      if (existingItem) {
+        const updatedCart = prevItems.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + product.quantity }
+            : item,
+        )
+        localStorage.setItem('cartItems', JSON.stringify(updatedCart))
+        return updatedCart
+      } else {
+        const updatedCart = [...prevItems, product]
+        localStorage.setItem('cartItems', JSON.stringify(updatedCart))
+        return updatedCart
+      }
     })
   }
 
@@ -46,12 +59,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     })
   }
 
+  const clearCart = () => {
+    setCartItems([])
+    localStorage.removeItem('cartItems')
+  }
+
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
   }, [cartItems])
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cartItems, addToCart, removeFromCart, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   )
