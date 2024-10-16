@@ -8,7 +8,7 @@ import { Confetti } from '@/components/confetti'
 import { Header } from '@/components/header'
 import { Card } from '@/components/ui/card'
 import Particles from '@/components/ui/particles'
-import { stripe } from '@/lib/stripe'
+import { getStripeInstance } from '@/lib/stripe'
 
 interface SuccessPageProps {
   searchParams: {
@@ -19,6 +19,8 @@ interface SuccessPageProps {
 export async function generateMetadata({
   searchParams,
 }: SuccessPageProps): Promise<Metadata> {
+  const stripe = getStripeInstance()
+
   const sessionId = searchParams.session_id
 
   if (!sessionId) {
@@ -57,6 +59,8 @@ export async function generateMetadata({
 }
 
 export default async function Success({ searchParams }: SuccessPageProps) {
+  const stripe = getStripeInstance()
+
   const sessionId = searchParams.session_id
 
   if (!sessionId) {

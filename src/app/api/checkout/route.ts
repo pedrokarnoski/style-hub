@@ -1,6 +1,8 @@
-import { stripe } from '@/lib/stripe'
+import { getStripeInstance } from '@/lib/stripe'
 
 export async function POST(request: Request) {
+  const stripe = getStripeInstance()
+
   const { lineItems } = await request.json()
 
   const successUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`

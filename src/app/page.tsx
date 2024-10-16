@@ -11,11 +11,13 @@ import {
 } from '@/components/ui/carousel'
 import Particles from '@/components/ui/particles'
 import { RainbowButton } from '@/components/ui/rainbow-button'
-import { stripe } from '@/lib/stripe'
+import { getStripeInstance } from '@/lib/stripe'
 
 export const revalidate = 60 * 60 * 24 // 1 dia
 
 export default async function Home() {
+  const stripe = getStripeInstance()
+
   const response = await stripe.products.list({
     expand: ['data.default_price'],
   })

@@ -7,13 +7,15 @@ import { Header } from '@/components/header'
 import { MagicCard } from '@/components/ui/magic-card'
 import Particles from '@/components/ui/particles'
 import { Separator } from '@/components/ui/separator'
-import { stripe } from '@/lib/stripe'
+import { getStripeInstance } from '@/lib/stripe'
 
 export async function generateMetadata({
   params,
 }: {
   params: { id: string }
 }): Promise<Metadata> {
+  const stripe = getStripeInstance()
+
   const response = await stripe.products.retrieve(params.id)
   const productName = response.name
 
@@ -24,6 +26,8 @@ export async function generateMetadata({
 }
 
 export default async function Product({ params }: { params: { id: string } }) {
+  const stripe = getStripeInstance()
+
   const response = await stripe.products.retrieve(params.id, {
     expand: ['default_price'],
   })
