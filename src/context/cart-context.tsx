@@ -8,6 +8,7 @@ interface Product {
   price: string
   defaultPriceId: string
   image: string
+  size: string
   quantity: number
 }
 
@@ -33,11 +34,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id)
+      // Verifica se já existe um item com o mesmo id e tamanho
+      const existingItem = prevItems.find(
+        (item) => item.id === product.id && item.size === product.size,
+      )
 
       if (existingItem) {
         const updatedCart = prevItems.map((item) =>
-          item.id === product.id
+          item.id === product.id && item.size === product.size
             ? { ...item, quantity: item.quantity + product.quantity }
             : item,
         )

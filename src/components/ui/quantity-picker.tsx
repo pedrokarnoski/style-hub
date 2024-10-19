@@ -34,7 +34,7 @@ export default function QuantityPicker({
   }
 
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex flex-col items-start gap-2 pb-4">
       <h3 className="font-medium">Quantidade</h3>
       <div className="flex w-full items-center gap-4">
         <Button
@@ -56,7 +56,7 @@ export default function QuantityPicker({
           }}
           min={min}
           max={max}
-          className="w-full text-center text-lg font-medium sm:w-40"
+          className="w-full text-center text-lg font-medium"
         />
         <Button
           variant="outline"

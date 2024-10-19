@@ -127,7 +127,11 @@ export function Header({ showBag = true }: { showBag: boolean }) {
                           </p>
                           <div className="flex items-center justify-between gap-4 lg:w-full">
                             <span className="text-sm text-muted-foreground">
-                              Quantidade: {item.quantity}
+                              Quant.: <strong>{item.quantity}</strong>
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              Tamanho:{' '}
+                              <strong>{item.size.toUpperCase()}</strong>
                             </span>
                             <AlertDialog>
                               <AlertDialogTrigger asChild>

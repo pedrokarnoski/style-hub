@@ -29,21 +29,39 @@ export default async function Product({ params }: { params: { id: string } }) {
   const stripe = getStripeInstance()
 
   const response = await stripe.products.retrieve(params.id, {
-    expand: ['default_price'],
+    expand: ['default_price', 'prices'],
   })
 
-  const price = response.default_price as Stripe.Price
+  const prices = await stripe.prices.list({
+    product: params.id,
+    expand: ['data.product'],
+  })
+
+  const priceBySize = prices.data.reduce(
+    (acc: Record<string, Stripe.Price>, price) => {
+      const size = price.nickname?.toLowerCase()
+      if (size) {
+        acc[size] = price
+      }
+      return acc
+    },
+    {},
+  )
+
+  const defaultPrice = response.default_price as Stripe.Price
 
   const product = {
     id: response.id,
     name: response.name,
     description: response.description,
     image: response.images[0],
-    price: new Intl.NumberFormat('pt-BR', {
+    defaultPrice: new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-    }).format((price.unit_amount ?? 0) / 100),
-    defaultPriceId: price.id,
+    }).format((defaultPrice.unit_amount ?? 0) / 100),
+    priceBySize,
+    defaultPriceId: defaultPrice.id,
+    size: '',
     quantity: 1,
   }
 
@@ -78,9 +96,6 @@ export default async function Product({ params }: { params: { id: string } }) {
               <div className="space-y-4">
                 <h1 className="text-2xl font-bold">{product.name}</h1>
                 <p className="text-muted-foreground">{product.description}</p>
-                <p className="text-2xl font-semibold text-primary">
-                  {product.price}
-                </p>
               </div>
             </div>
 
