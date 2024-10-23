@@ -131,7 +131,7 @@ export function Header({ showBag = true }: { showBag: boolean }) {
                             </span>
                             <span className="text-sm text-muted-foreground">
                               Tamanho:{' '}
-                              <strong>{item.size.toUpperCase()}</strong>
+                              <strong>{item.size?.toUpperCase()}</strong>
                             </span>
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
